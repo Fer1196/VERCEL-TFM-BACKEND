@@ -39,21 +39,4 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-      - name: Slack message with build result
-        if: success() || failure()
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          channel-id: C07G7NCBVQW
-          payload: |
-            {
-              "channel": "C07G7NCBVQW",
-              "text": "📢 Resultado de la construcción.",
-              "attachments": [
-                {
-                  "color": "${{ job.status == 'success' && '#36a64f' || job.status == 'failure' && '#ff0000' || '#FFA500' }}",
-                  "text": "Estado del trabajo: ${{ job.status }}\nEnlace a los logs: ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}"
-                }
-              ]
-            }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  
