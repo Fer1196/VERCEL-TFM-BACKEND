@@ -1,10 +1,7 @@
 name: Notify on Push to UAT
 
 on:
-  push:
-    branches:
-      - UAT
-
+  push
 jobs:
   notify:
     runs-on: ubuntu-latest
