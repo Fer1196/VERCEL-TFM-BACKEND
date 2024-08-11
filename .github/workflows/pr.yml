@@ -1,72 +1,13 @@
-name: pull_request_notification
+name: Simple PR Test
 
 on:
   pull_request:
-    branches:
-      - UAT 
-    types: [opened, edited, closed]
+    types: [opened]
 
 jobs:
-  notify:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Send Slack notification
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          channel-id: C07GJ2TGW7N
-          payload: |
-            {
-              "channel": "C07GJ2TGW7N",
-              "text": "📢 Nueva actualización de Pull Request",
-              "attachments": [
-                {
-                  "color": "#36a64f",
-                  "pretext": "Un Pull Request ha sido actualizado:",
-                  "fields": [
-                    {
-                      "title": "Título",
-                      "value": "${{ github.event.pull_request.title }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Autor",
-                      "value": "${{ github.event.pull_request.user.login }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Estado",
-                      "value": "${{ github.event.pull_request.state }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Número",
-                      "value": "${{ github.event.pull_request.number }}",
-                      "short": true
-                    }
-                  ],
-                  "actions": [
-                    {
-                      "type": "button",
-                      "text": "Ver Pull Request",
-                      "url": "${{ github.event.pull_request.html_url }}",
-                      "style": "primary"
-                    },
-                    {
-                      "type": "button",
-                      "text": "Revisar Cambios",
-                      "url": "${{ github.event.pull_request.html_url }}/files",
-                      "style": "danger"
-                    }
-                  ],
-                  "footer": "GitHub Actions",
-                  "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-                  "ts": "{{ github.event.pull_request.updated_at }}"
-                }
-              ]
-            }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Echo PR URL
+        run: echo "PR opened: ${{ github.event.pull_request.html_url }}"
