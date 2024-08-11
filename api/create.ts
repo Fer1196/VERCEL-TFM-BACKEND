@@ -12,6 +12,6 @@ export default (req: VercelRequest, res: VercelResponse) => {
       data,
     });
   } else {
-    res.status(405).json({ message: "Método no permitido atnciuoddd" });
+    res.status(405).json({ message: "Método no permitido cuidado" });
   }
 };
