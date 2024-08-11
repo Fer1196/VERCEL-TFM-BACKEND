@@ -6,14 +6,14 @@ export default (req: VercelRequest, res: VercelResponse) => {
   if (req.method === "POST") {
     const data = req.body;
     // Lógica para crear un recurso (ej. guardar en una base de datos)
-    res
-      .status(201)
-      .json({
-        message:
-          "Recurso creado Vercel modificado ahora mismo con nueva data V2 from github",
-        data,
-      });
+    res.status(201).json({
+      message:
+        "Recurso creado Vercel modificado ahora mismo con nueva data V2 from github and others ",
+      data,
+    });
   } else {
-    res.status(405).json({ message: "Método no permitio revisarlo ahora mismo......" });
+    res
+      .status(405)
+      .json({ message: "Método no permitio revisarlo ahora mismo......" });
   }
 };
