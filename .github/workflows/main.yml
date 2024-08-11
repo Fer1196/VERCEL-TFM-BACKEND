@@ -20,12 +20,19 @@ jobs:
           channel-id: C07GCKW8VNH
           payload: |
             {
+             "actions": [
+                {
+                  "type": "button",
+                  "text": "Ver Issue",
+                  "url": "${{ github.event.issue.html_url }}"
+                }
+              ] ,
               "channel": "C07GCKW8VNH",
               "text": "📢 Atención: Nueva incidencia reportada",
               "attachments": [
                 {
                   "color": "#FFA500",
-                  "text": "Detalles del *Pull Request*:\n*Título:* ${{ github.event.issue.title }}\n*Autor:* ${{ github.event.sender.login }}\n*Body:* ${{ github.event.issue.body }}\n*Issue URL:* ${{ github.event.issue.html_url }}\n*Number:* ${{ github.event.issue.number }}"
+                  "text": "Detalles del *Issue*:\n*Título:* ${{ github.event.issue.title }}\n*Autor:* ${{ github.event.sender.login }}\n*Body:* ${{ github.event.issue.body }}\n*Issue URL:* ${{ github.event.issue.html_url }}\n*Number:* ${{ github.event.issue.number }}"
                 }
               ]
             }
