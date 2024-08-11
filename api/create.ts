@@ -10,7 +10,7 @@ export default (req: VercelRequest, res: VercelResponse) => {
       .status(201)
       .json({
         message:
-          "Recurso creado Vercel modificado ahora mismo con nueva data V2",
+          "Recurso creado Vercel modificado ahora mismo con nueva data V23",
         data,
       });
   } else {
