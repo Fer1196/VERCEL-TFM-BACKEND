@@ -1,14 +1,17 @@
 name: Notify on Push to UAT
 
 on:
-  push
+  push:
+    branches:
+      - UAT
 
 jobs:
   notify:
     runs-on: ubuntu-latest
 
     steps:
-
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Send Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
@@ -25,12 +28,12 @@ jobs:
                   "fields": [
                     {
                       "title": "Mensaje del Commit",
-                      "value": "${{ env.COMMIT_MESSAGE }}",
+                      "value": "${{ steps.get_commit.outputs.commit_message }}",
                       "short": false
                     },
                     {
                       "title": "Autor",
-                      "value": "${{ env.COMMITTER_NAME }}",
+                      "value": "${{ steps.get_commit.outputs.committer_name }}",
                       "short": true
                     }
                   ],
@@ -38,7 +41,7 @@ jobs:
                     {
                       "type": "button",
                       "text": "Ver Commit",
-                      "url": "${{ env.COMMIT_URL }}",
+                      "url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}",
                       "style": "primary"
                     }
                   ],
@@ -50,3 +53,8 @@ jobs:
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          COMMITTER_NAME=$(git log -1 --pretty='%cn')
+          echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+          echo "COMMITTER_NAME=${COMMITTER_NAME}" >> $GITHUB_ENV
