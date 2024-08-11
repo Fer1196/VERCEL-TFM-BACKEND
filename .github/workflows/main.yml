@@ -15,10 +15,10 @@ jobs:
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: C07GCKW8VNH
+          channel-id: C07GJ2TGW7N
           payload: |
             {
-              "channel": "C07GCKW8VNH",
+              "channel": "C07GJ2TGW7N",
               "text": "📢 Atención: Nueva incidencia reportada",
               "attachments": [
                 {
