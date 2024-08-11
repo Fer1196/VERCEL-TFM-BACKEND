@@ -1,9 +1,7 @@
 name: pull_request_notification
-
 on:
   pull_request: 
     types: [opened, edited, closed]
-
 jobs:
   notify:
     runs-on: ubuntu-latest
