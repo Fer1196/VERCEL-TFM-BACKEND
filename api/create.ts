@@ -14,6 +14,6 @@ export default (req: VercelRequest, res: VercelResponse) => {
         data,
       });
   } else {
-    res.status(405).json({ message: "Método no permitid revisaro" });
+    res.status(405).json({ message: "Método no permitio revisarlo ahora mismo" });
   }
 };
