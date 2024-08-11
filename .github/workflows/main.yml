@@ -17,10 +17,10 @@ jobs:
       - name: Slack message on build start
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: C07G7NCBVQW
+          channel-id: C07GCKW8VNH
           payload: |
             {
-              "channel": "C07G7NCBVQW",
+              "channel": "C07GCKW8VNH",
               "text": "📢 Atención: Se ha iniciado una nueva construcción.",
               "attachments": [
                 {
