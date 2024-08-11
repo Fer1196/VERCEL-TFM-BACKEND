@@ -1,9 +1,7 @@
 name: pull_request_notification
 
 on:
-  pull_request:
-    branches:
-      - UAT 
+  pull_request: 
     types: [opened, edited, closed]
 
 jobs:
