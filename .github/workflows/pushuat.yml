@@ -10,7 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
+      - name: Get Commit Info
+        id: get_commit
+        run: |
+          echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+          echo "COMMITTER_NAME=$(git log -1 --pretty='%cn')" >> $GITHUB_ENV
+          echo "COMMIT_URL=https://github.com/${{ github.repository }}/commit/${{ github.sha }}" >> $GITHUB_ENV
+
       - name: Send Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
         with:
@@ -26,12 +32,12 @@ jobs:
                   "fields": [
                     {
                       "title": "Mensaje del Commit",
-                      "value": "${{ env.commit_message }}",
+                      "value": "${{ env.COMMIT_MESSAGE }}",
                       "short": false
                     },
                     {
                       "title": "Autor",
-                      "value": "${{ env.committer_name }}",
+                      "value": "${{ env.COMMITTER_NAME }}",
                       "short": true
                     }
                   ],
@@ -39,13 +45,13 @@ jobs:
                     {
                       "type": "button",
                       "text": "Ver Commit",
-                      "url": "${{ env.commit_url }}",
+                      "url": "${{ env.COMMIT_URL }}",
                       "style": "primary"
                     }
                   ],
                   "footer": "GitHub Actions",
                   "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-                  "ts": "{{ github.event.head_commit.timestamp }}"
+                  "ts": "${{ github.event.head_commit.timestamp }}"
                 }
               ]
             }
