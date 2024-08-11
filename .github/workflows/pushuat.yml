@@ -14,47 +14,46 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Send Slack Notification
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          channel-id: C07GJ2TGW7N
-          payload: |
-            {
-              "channel": "C07GJ2TGW7N",
-              "text": "🚀 Se han añadido nuevos cambios a la rama UAT",
-              "attachments": [
-                {
-                  "color": "#36a64f",
-                  "pretext": "Detalles del último commit:",
-                  "fields": [
-                    {
-                      "title": "Mensaje del Commit",
-                      "value": "${{ steps.get_commit.outputs.commit_message }}",
-                      "short": false
-                    },
-                    {
-                      "title": "Autor",
-                      "value": "${{ steps.get_commit.outputs.committer_name }}",
-                      "short": true
-                    }
-                  ],
-                  "actions": [
-                    {
-                      "type": "button",
-                      "text": "Ver Commit",
-                      "url": "https://github.com/${{ github.repository }}/commit/${{ github.sha }}",
-                      "style": "primary"
-                    }
-                  ],
-                  "footer": "GitHub Actions",
-                  "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-                  "ts": "${{ github.event.head_commit.timestamp }}"
-                }
-              ]
-            }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           COMMITTER_NAME=$(git log -1 --pretty='%cn')
-          echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
-          echo "COMMITTER_NAME=${COMMITTER_NAME}" >> $GITHUB_ENV
+          COMMIT_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          PAYLOAD=$(cat <<EOF
+          {
+            "channel": "C07GJ2TGW7N",
+            "text": "🚀 Se han añadido nuevos cambios a la rama UAT",
+            "attachments": [
+              {
+                "color": "#36a64f",
+                "pretext": "Detalles del último commit:",
+                "fields": [
+                  {
+                    "title": "Mensaje del Commit",
+                    "value": "${COMMIT_MESSAGE}",
+                    "short": false
+                  },
+                  {
+                    "title": "Autor",
+                    "value": "${COMMITTER_NAME}",
+                    "short": true
+                  }
+                ],
+                "actions": [
+                  {
+                    "type": "button",
+                    "text": "Ver Commit",
+                    "url": "${COMMIT_URL}",
+                    "style": "primary"
+                  }
+                ],
+                "footer": "GitHub Actions",
+                "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
+                "ts": "${{ github.event.head_commit.timestamp }}"
+              }
+            ]
+          }
+          EOF
+          )
+          curl -X POST -H 'Content-type: application/json' -H "Authorization: Bearer $SLACK_BOT_TOKEN" --data "$PAYLOAD" https://slack.com/api/chat.postMessage
