@@ -10,12 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get Commit Info
-        id: get_commit
-        run: |
-          echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
-          echo "COMMITTER_NAME=$(git log -1 --pretty='%cn')" >> $GITHUB_ENV
-          echo "COMMIT_URL=https://github.com/${{ github.repository }}/commit/${{ github.sha }}" >> $GITHUB_ENV
+
 
       - name: Send Slack Notification
         uses: slackapi/slack-github-action@v1.24.0
