@@ -8,7 +8,7 @@ export default (req: VercelRequest, res: VercelResponse) => {
     // Lógica para crear un recurso (ej. guardar en una base de datos)
     res.status(201).json({
       message:
-        "Recurso creado Vercel modificado ahora mismo con nueva data V23....",
+        "Recurso creado Vercel modificado ahora mismo con nueva data V23....jkjkkj",
       data,
     });
   } else {
