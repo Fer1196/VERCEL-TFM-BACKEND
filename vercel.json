@@ -6,6 +6,9 @@
       "use": "@vercel/node"
     }
   ],
+   "github": {
+    "enabled": true
+  },
   "routes": [
     { "src": "/api/create", "dest": "/api/create.ts" },
     { "src": "/api/read", "dest": "/api/read.ts" },
